@@ -1,121 +1,75 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaGraduationCap, FaBook } from 'react-icons/fa';
-import { education } from '../../utils/portfolioData';
 
 export default function Education() {
-  const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section
-      id="education"
-      className="relative"
-      style={{ background: 'var(--bg-secondary)' }}
-    >
+    <section id="education" style={{ background: 'var(--bg-secondary)' }}>
       <div className="section-container" ref={ref}>
-        <motion.h2
-          className="section-title gradient-text"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-        >
-          Education
-        </motion.h2>
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-        >
-          My academic background
-        </motion.p>
+        <span className="section-tag">&lt; Education /&gt;</span>
+        <h2 className="section-title">
+          Academic <span className="accent-text">Background</span>
+        </h2>
+        <div className="section-line" />
 
         <div className="max-w-3xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            className="card"
+            initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="rounded-3xl p-8 md:p-12 relative overflow-hidden"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-color)',
-            }}
-            whileHover={{
-              boxShadow: '0 20px 60px var(--shadow-color)',
-            }}
+            transition={{ duration: 0.5 }}
           >
-            {/* Decorative gradient */}
-            <div
-              className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl"
-              style={{ background: 'var(--gradient-start)' }}
-            />
-
-            <div className="relative z-10">
-              <div className="flex items-start gap-6 mb-8">
-                <motion.div
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))',
-                  }}
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                >
-                  <FaGraduationCap size={36} color="white" />
-                </motion.div>
-
-                <div>
-                  <h3
-                    className="text-2xl font-bold mb-2"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {education.degree}
-                  </h3>
-                  <p
-                    className="text-lg font-semibold gradient-text mb-1"
-                  >
-                    {education.institution}
-                  </p>
-                  <p
-                    className="text-sm font-mono"
-                    style={{ color: 'var(--text-muted)' }}
-                  >
-                    {education.period}
-                  </p>
-                </div>
+            <div className="flex flex-col md:flex-row md:items-start gap-6">
+              <div
+                className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: 'var(--accent-glow)' }}
+              >
+                <i className="fas fa-graduation-cap text-2xl" style={{ color: 'var(--accent)' }} />
               </div>
 
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <FaBook style={{ color: 'var(--gradient-start)' }} />
-                  <h4
-                    className="font-bold"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    Relevant Coursework
-                  </h4>
-                </div>
+              <div className="flex-1">
+                <span
+                  className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3"
+                  style={{ background: 'var(--accent-glow)', color: 'var(--accent)' }}
+                >
+                  2021 – 2025
+                </span>
 
-                <div className="flex flex-wrap gap-3">
-                  {education.coursework.map((course, i) => (
-                    <motion.span
+                <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                  Bachelor of Science in Information Technology
+                </h3>
+
+                <p className="text-sm mb-4" style={{ color: 'var(--accent)' }}>
+                  Islamia University of Bahawalpur
+                </p>
+
+                <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+                  Specializing in Web Development and Software Engineering with a strong
+                  foundation in programming, databases, and modern web technologies.
+                </p>
+
+                <h4 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                  Key Coursework:
+                </h4>
+
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    'Web Development',
+                    'Data Structures & Algorithms',
+                    'Database Systems',
+                    'Software Engineering',
+                    'Object-Oriented Programming',
+                    'Computer Networks',
+                  ].map((course) => (
+                    <div
                       key={course}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={inView ? { opacity: 1, scale: 1 } : {}}
-                      transition={{ delay: 0.6 + i * 0.1 }}
-                      className="px-5 py-2.5 rounded-full text-sm font-medium"
-                      style={{
-                        background: 'var(--bg-secondary)',
-                        color: 'var(--text-secondary)',
-                        border: '1px solid var(--border-color)',
-                      }}
-                      whileHover={{
-                        background:
-                          'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))',
-                        color: 'white',
-                        scale: 1.05,
-                      }}
+                      className="flex items-center gap-2 text-sm"
+                      style={{ color: 'var(--text-secondary)' }}
                     >
+                      <span style={{ color: 'var(--accent)' }}>•</span>
                       {course}
-                    </motion.span>
+                    </div>
                   ))}
                 </div>
               </div>

@@ -14,11 +14,31 @@ import Footer from './components/Footer/Footer';
 import AIChat from './components/AIChat/AIChat';
 import Loader from './components/Loader/Loader';
 
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!visible) return null;
+  return (
+    <button
+      className="back-to-top"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Back to top"
+    >
+      <i className="fas fa-chevron-up" />
+    </button>
+  );
+}
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2500);
+    const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -42,6 +62,7 @@ export default function App() {
           </main>
           <Footer />
           <AIChat />
+          <BackToTop />
         </>
       )}
     </>

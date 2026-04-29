@@ -1,129 +1,142 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { skills } from '../../utils/portfolioData';
 
-const categories = ['All', 'Frontend', 'Framework', 'Tools'];
+interface Skill {
+  name: string;
+  percent: number;
+  icon: string;
+  category: string;
+  level: string;
+}
 
-export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+const skills: Skill[] = [
+  { name: 'HTML5', percent: 90, icon: 'fab fa-html5', category: 'frontend', level: 'Expert' },
+  { name: 'CSS3', percent: 85, icon: 'fab fa-css3-alt', category: 'frontend', level: 'Expert' },
+  { name: 'JavaScript', percent: 80, icon: 'fab fa-js-square', category: 'frontend', level: 'Advanced' },
+  { name: 'TypeScript', percent: 65, icon: 'fas fa-code', category: 'frontend', level: 'Intermediate' },
+  { name: 'React', percent: 75, icon: 'fab fa-react', category: 'framework', level: 'Advanced' },
+  { name: 'Tailwind CSS', percent: 80, icon: 'fas fa-wind', category: 'framework', level: 'Advanced' },
+  { name: 'Bootstrap', percent: 85, icon: 'fab fa-bootstrap', category: 'framework', level: 'Expert' },
+  { name: 'Git', percent: 75, icon: 'fab fa-git-alt', category: 'tools', level: 'Advanced' },
+  { name: 'GitHub', percent: 80, icon: 'fab fa-github', category: 'tools', level: 'Advanced' },
+  { name: 'VS Code', percent: 90, icon: 'fas fa-laptop-code', category: 'tools', level: 'Expert' },
+  { name: 'Vite', percent: 75, icon: 'fas fa-bolt', category: 'tools', level: 'Advanced' },
+  { name: 'Figma', percent: 60, icon: 'fab fa-figma', category: 'tools', level: 'Intermediate' },
+  { name: 'Vercel', percent: 70, icon: 'fas fa-cloud', category: 'tools', level: 'Intermediate' },
+  { name: 'Netlify', percent: 65, icon: 'fas fa-server', category: 'tools', level: 'Intermediate' },
+];
 
-  const filteredSkills =
-    activeCategory === 'All'
-      ? skills
-      : skills.filter((s) => s.category === activeCategory);
+const filters = ['all', 'frontend', 'framework', 'tools'];
+
+function SkillCircle({ percent, inView }: { percent: number; inView: boolean }) {
+  const circumference = 2 * Math.PI * 40;
+  const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <section id="skills" className="relative">
-      <div className="section-container" ref={ref}>
-        <motion.h2
-          className="section-title gradient-text"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-        >
-          Skills & Technologies
-        </motion.h2>
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-        >
-          Technologies I work with
-        </motion.p>
+    <div className="relative w-20 h-20 mx-auto mb-3">
+      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+        <circle
+          cx="50" cy="50" r="40"
+          fill="none"
+          stroke="var(--border-color)"
+          strokeWidth="6"
+        />
+        <circle
+          cx="50" cy="50" r="40"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={inView ? offset : circumference}
+          style={{ transition: 'stroke-dashoffset 1.5s ease-out' }}
+        />
+      </svg>
+      <span
+        className="absolute inset-0 flex items-center justify-center text-sm font-semibold"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        {percent}%
+      </span>
+    </div>
+  );
+}
 
-        {/* Category filter */}
-        <div className="flex justify-center gap-3 mb-12 flex-wrap">
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className="px-6 py-2 rounded-full text-sm font-semibold transition-all"
+function levelColor(level: string) {
+  switch (level) {
+    case 'Expert': return '#00e676';
+    case 'Advanced': return '#00b0ff';
+    case 'Intermediate': return '#ffab00';
+    default: return '#ff5252';
+  }
+}
+
+export default function Skills() {
+  const [active, setActive] = useState('all');
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+
+  const filtered = active === 'all' ? skills : skills.filter(s => s.category === active);
+
+  return (
+    <section id="skills" style={{ background: 'var(--bg-primary)' }}>
+      <div className="section-container" ref={ref}>
+        <span className="section-tag">&lt; Skills /&gt;</span>
+        <h2 className="section-title">
+          Technologies I <span className="accent-text">work with</span>
+        </h2>
+        <div className="section-line" />
+
+        {/* Filter buttons */}
+        <div className="flex justify-center gap-3 mb-10 flex-wrap">
+          {filters.map((f) => (
+            <button
+              key={f}
+              onClick={() => setActive(f)}
+              className="px-5 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all border-none capitalize"
               style={{
-                background:
-                  activeCategory === cat
-                    ? 'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))'
-                    : 'var(--bg-card)',
-                color: activeCategory === cat ? 'white' : 'var(--text-secondary)',
-                border: `1px solid ${activeCategory === cat ? 'transparent' : 'var(--border-color)'}`,
+                background: active === f ? 'var(--accent)' : 'var(--bg-card)',
+                color: active === f ? '#000' : 'var(--text-secondary)',
+                border: active === f ? 'none' : '1px solid var(--border-color)',
               }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
-              {cat}
-            </motion.button>
+              {f === 'all' ? 'All' : f.charAt(0).toUpperCase() + f.slice(1)}
+            </button>
           ))}
         </div>
 
         {/* Skills grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill, i) => (
-              <motion.div
-                key={skill.name}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="group relative rounded-2xl p-6 text-center cursor-pointer transition-all"
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+          {filtered.map((skill, i) => (
+            <motion.div
+              key={skill.name}
+              className="card text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+            >
+              <SkillCircle percent={skill.percent} inView={inView} />
+              <i
+                className={`${skill.icon} text-xl mb-2`}
+                style={{ color: 'var(--accent)' }}
+              />
+              <h4
+                className="text-sm font-semibold mb-1"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {skill.name}
+              </h4>
+              <span
+                className="text-xs px-2 py-0.5 rounded-full font-medium"
                 style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border-color)',
-                }}
-                whileHover={{
-                  y: -10,
-                  boxShadow: `0 20px 40px ${skill.color}20`,
+                  color: levelColor(skill.level),
+                  background: `${levelColor(skill.level)}15`,
                 }}
               >
-                {/* Glow effect on hover */}
-                <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background: `radial-gradient(circle at center, ${skill.color}10, transparent 70%)`,
-                  }}
-                />
-
-                <div className="relative z-10">
-                  <motion.div
-                    className="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <skill.icon size={40} color={skill.color} />
-                  </motion.div>
-
-                  <h3
-                    className="font-bold text-sm mb-3"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {skill.name}
-                  </h3>
-
-                  {/* Skill bar */}
-                  <div
-                    className="h-2 rounded-full overflow-hidden"
-                    style={{ background: 'var(--bg-secondary)' }}
-                  >
-                    <motion.div
-                      className="h-full rounded-full"
-                      style={{ background: skill.color }}
-                      initial={{ width: 0 }}
-                      animate={inView ? { width: `${skill.level}%` } : {}}
-                      transition={{ duration: 1, delay: 0.5 + i * 0.05 }}
-                    />
-                  </div>
-                  <span
-                    className="text-xs mt-2 block font-mono"
-                    style={{ color: skill.color }}
-                  >
-                    {skill.level}%
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                {skill.level}
+              </span>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

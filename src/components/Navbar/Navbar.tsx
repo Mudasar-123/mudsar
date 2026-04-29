@@ -1,131 +1,109 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { navLinks } from '../../utils/portfolioData';
 import ThemeSwitcher from '../Theme/ThemeSwitcher';
 
+const navLinks = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' },
+];
+
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      const sections = navLinks.map((link) => link.href.replace('#', ''));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top <= 100) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className={`fixed top-0 w-full z-[1000] transition-all duration-300 ${
-        isScrolled ? 'glass py-3' : 'py-5'
-      }`}
+    <nav
+      className="fixed top-0 w-full z-[1000] transition-all duration-300"
+      style={{
+        background: scrolled ? 'var(--glass-bg)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border-color)' : 'none',
+        padding: scrolled ? '12px 0' : '20px 0',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-        <motion.a
+      <div className="max-w-[1100px] mx-auto px-6 flex items-center justify-between">
+        <a
           href="#home"
-          className="text-2xl font-bold gradient-text font-heading"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="text-xl font-bold no-underline"
+          style={{ fontFamily: 'var(--font-code)', color: 'var(--accent)' }}
         >
-          {'<Mudasar />'}
-        </motion.a>
+          &lt;/MM&gt;
+        </a>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-6 list-none m-0 p-0">
           {navLinks.map((link) => (
-            <motion.a
-              key={link.href}
-              href={link.href}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeSection === link.href.replace('#', '')
-                  ? 'gradient-text'
-                  : ''
-              }`}
-              style={{
-                color:
-                  activeSection === link.href.replace('#', '')
-                    ? undefined
-                    : 'var(--text-secondary)',
-                background:
-                  activeSection === link.href.replace('#', '')
-                    ? 'var(--bg-card)'
-                    : 'transparent',
-              }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {link.label}
-            </motion.a>
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                className="text-sm font-medium no-underline transition-colors duration-300 hover:!text-[var(--accent)]"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {link.label}
+              </a>
+            </li>
           ))}
-          <ThemeSwitcher />
-        </div>
+        </ul>
 
-        {/* Mobile toggle */}
-        <div className="md:hidden flex items-center gap-3">
-          <ThemeSwitcher />
-          <motion.button
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            whileTap={{ scale: 0.9 }}
-            className="p-2 rounded-lg"
-            style={{ color: 'var(--text-primary)' }}
+        <div className="flex items-center gap-3">
+          <a
+            href="#contact"
+            className="hidden md:inline-flex btn btn-primary !py-2 !px-5 !text-sm"
           >
-            {isMobileOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </motion.button>
+            Hire Me
+          </a>
+          <ThemeSwitcher />
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden flex flex-col gap-1 p-2 bg-transparent border-none cursor-pointer"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <span
+              className="block w-5 h-0.5 transition-all"
+              style={{ background: 'var(--text-primary)' }}
+            />
+            <span
+              className="block w-5 h-0.5 transition-all"
+              style={{ background: 'var(--text-primary)' }}
+            />
+            <span
+              className="block w-5 h-0.5 transition-all"
+              style={{ background: 'var(--text-primary)' }}
+            />
+          </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass mt-2 mx-4 rounded-2xl overflow-hidden"
-          >
-            <div className="p-4 flex flex-col gap-2">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  onClick={() => setIsMobileOpen(false)}
-                  className="px-4 py-3 rounded-xl text-base font-medium transition-all"
-                  style={{
-                    color:
-                      activeSection === link.href.replace('#', '')
-                        ? 'var(--gradient-start)'
-                        : 'var(--text-secondary)',
-                    background:
-                      activeSection === link.href.replace('#', '')
-                        ? 'var(--bg-card)'
-                        : 'transparent',
-                  }}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+      {mobileOpen && (
+        <div
+          className="md:hidden py-4 px-6"
+          style={{ background: 'var(--bg-card)', borderTop: '1px solid var(--border-color)' }}
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              className="block py-3 text-sm font-medium no-underline"
+              style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--border-color)' }}
+              onClick={() => setMobileOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
   );
 }

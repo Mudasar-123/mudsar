@@ -1,291 +1,123 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import {
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaGithub,
-  FaPaperPlane,
-} from 'react-icons/fa';
-import { personalInfo } from '../../utils/portfolioData';
+
+const contactInfo = [
+  {
+    icon: 'fas fa-envelope',
+    label: 'Email',
+    value: 'muhammadmudasar0625@gmail.com',
+    href: 'mailto:muhammadmudasar0625@gmail.com',
+  },
+  {
+    icon: 'fas fa-phone',
+    label: 'Phone',
+    value: '+92 309 862 4009',
+    href: 'tel:+923098624009',
+  },
+  {
+    icon: 'fas fa-map-marker-alt',
+    label: 'Location',
+    value: 'Multan, Pakistan',
+    href: null,
+  },
+  {
+    icon: 'fab fa-github',
+    label: 'GitHub',
+    value: 'github.com/Mudasar-123',
+    href: 'https://github.com/Mudasar-123',
+  },
+];
 
 export default function Contact() {
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
-  };
-
-  const contactInfo = [
-    {
-      icon: FaEnvelope,
-      label: 'Email',
-      value: personalInfo.email,
-      href: `mailto:${personalInfo.email}`,
-    },
-    {
-      icon: FaPhone,
-      label: 'Phone',
-      value: personalInfo.phone,
-      href: `tel:${personalInfo.phone}`,
-    },
-    {
-      icon: FaMapMarkerAlt,
-      label: 'Location',
-      value: personalInfo.location,
-      href: '#',
-    },
-    {
-      icon: FaGithub,
-      label: 'GitHub',
-      value: 'Mudasar-123',
-      href: personalInfo.github,
-    },
-  ];
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="contact" className="relative">
+    <section id="contact" style={{ background: 'var(--bg-primary)' }}>
       <div className="section-container" ref={ref}>
-        <motion.h2
-          className="section-title gradient-text"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-        >
-          Get In Touch
-        </motion.h2>
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-        >
-          Let's work together
-        </motion.p>
+        <span className="section-tag">&lt; Contact /&gt;</span>
+        <h2 className="section-title">
+          Get in <span className="accent-text">Touch</span>
+        </h2>
+        <div className="section-line" />
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
+        <motion.div
+          className="max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="card">
             <h3
-              className="text-2xl font-bold mb-6"
+              className="text-lg font-bold mb-2"
               style={{ color: 'var(--text-primary)' }}
             >
-              Let's talk about your project
+              Contact Information
             </h3>
             <p
-              className="mb-8 leading-relaxed"
+              className="text-sm mb-6 leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Feel free to reach out if you want to collaborate, have a question,
-              or just want to say hi. I'll get back to you as soon as possible!
+              I&apos;m open to freelance projects, internships, and collaboration
+              opportunities. Feel free to reach out!
             </p>
 
             <div className="space-y-4">
-              {contactInfo.map((info, i) => (
-                <motion.a
-                  key={info.label}
-                  href={info.href}
-                  target={info.href.startsWith('http') ? '_blank' : undefined}
-                  rel="noreferrer"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                  className="flex items-center gap-4 p-4 rounded-xl transition-all group"
+              {contactInfo.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-4 p-3 rounded-lg transition-all hover:translate-x-1"
                   style={{
-                    background: 'var(--bg-card)',
+                    background: 'var(--bg-secondary)',
                     border: '1px solid var(--border-color)',
-                  }}
-                  whileHover={{
-                    x: 8,
-                    boxShadow: '0 10px 30px var(--shadow-color)',
                   }}
                 >
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                    style={{
-                      background:
-                        'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))',
-                    }}
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: 'var(--accent-glow)' }}
                   >
-                    <info.icon size={20} color="white" />
+                    <i className={item.icon} style={{ color: 'var(--accent)' }} />
                   </div>
                   <div>
-                    <p
-                      className="text-xs font-mono"
+                    <span
+                      className="text-xs font-medium block"
                       style={{ color: 'var(--text-muted)' }}
                     >
-                      {info.label}
-                    </p>
-                    <p
-                      className="font-medium"
-                      style={{ color: 'var(--text-primary)' }}
-                    >
-                      {info.value}
-                    </p>
+                      {item.label}
+                    </span>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="text-sm font-medium no-underline hover:underline"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span
+                        className="text-sm font-medium"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
+                        {item.value}
+                      </span>
+                    )}
                   </div>
-                </motion.a>
+                </div>
               ))}
             </div>
-          </motion.div>
 
-          {/* Contact form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-2"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    required
-                    className="w-full px-4 py-3 rounded-xl outline-none transition-all focus:ring-2"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border-color)',
-                      color: 'var(--text-primary)',
-                      ['--tw-ring-color' as string]: 'var(--gradient-start)',
-                    }}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-2"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    required
-                    className="w-full px-4 py-3 rounded-xl outline-none transition-all focus:ring-2"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border-color)',
-                      color: 'var(--text-primary)',
-                      ['--tw-ring-color' as string]: 'var(--gradient-start)',
-                    }}
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  className="block text-sm font-medium mb-2"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  value={formData.subject}
-                  onChange={(e) =>
-                    setFormData({ ...formData, subject: e.target.value })
-                  }
-                  required
-                  className="w-full px-4 py-3 rounded-xl outline-none transition-all focus:ring-2"
-                  style={{
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border-color)',
-                    color: 'var(--text-primary)',
-                    ['--tw-ring-color' as string]: 'var(--gradient-start)',
-                  }}
-                  placeholder="Project idea"
-                />
-              </div>
-
-              <div>
-                <label
-                  className="block text-sm font-medium mb-2"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  Message
-                </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl outline-none transition-all resize-none focus:ring-2"
-                  style={{
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border-color)',
-                    color: 'var(--text-primary)',
-                    ['--tw-ring-color' as string]: 'var(--gradient-start)',
-                  }}
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all disabled:opacity-60"
-                style={{
-                  background:
-                    'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))',
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: '0 10px 30px var(--shadow-color)',
-                }}
-                whileTap={{ scale: 0.98 }}
+            {/* CTA */}
+            <div className="mt-8 text-center">
+              <a
+                href="mailto:muhammadmudasar0625@gmail.com"
+                className="btn btn-primary"
               >
-                {isSubmitting ? (
-                  <motion.div
-                    className="w-6 h-6 border-2 border-white border-t-transparent rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  />
-                ) : submitted ? (
-                  'Message Sent! ✨'
-                ) : (
-                  <>
-                    <FaPaperPlane /> Send Message
-                  </>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
-        </div>
+                <i className="fas fa-paper-plane" /> Send Email
+              </a>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
