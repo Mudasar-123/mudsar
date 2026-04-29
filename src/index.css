@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6C63FF;
+  --color-primary-light: #8B83FF;
+  --color-primary-dark: #5A52E0;
+  --color-secondary: #00D4AA;
+  --color-accent: #FF6B6B;
+  --color-neon-blue: #00F5FF;
+  --color-neon-pink: #FF00FF;
+  --color-neon-green: #39FF14;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Dark theme (default) */
+body.dark {
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #12122a;
+  --bg-card: #1a1a3e;
+  --bg-card-hover: #252552;
+  --text-primary: #ffffff;
+  --text-secondary: #b4b4d0;
+  --text-muted: #6b6b8d;
+  --border-color: #2a2a5a;
+  --gradient-start: #6C63FF;
+  --gradient-end: #00D4AA;
+  --shadow-color: rgba(108, 99, 255, 0.15);
+  --glass-bg: rgba(26, 26, 62, 0.7);
+  --glass-border: rgba(108, 99, 255, 0.2);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Light theme */
+body.light {
+  --bg-primary: #f8f9ff;
+  --bg-secondary: #eef0ff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f2ff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a6a;
+  --text-muted: #8888a8;
+  --border-color: #d4d4ee;
+  --gradient-start: #6C63FF;
+  --gradient-end: #00D4AA;
+  --shadow-color: rgba(108, 99, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(108, 99, 255, 0.15);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Cyberpunk theme */
+body.cyberpunk {
+  --bg-primary: #0d0221;
+  --bg-secondary: #150535;
+  --bg-card: #1a0a40;
+  --bg-card-hover: #2a1060;
+  --text-primary: #00F5FF;
+  --text-secondary: #FF00FF;
+  --text-muted: #8844aa;
+  --border-color: #FF00FF40;
+  --gradient-start: #FF00FF;
+  --gradient-end: #00F5FF;
+  --shadow-color: rgba(255, 0, 255, 0.2);
+  --glass-bg: rgba(13, 2, 33, 0.8);
+  --glass-border: rgba(0, 245, 255, 0.3);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Sunset theme */
+body.sunset {
+  --bg-primary: #1a0a0a;
+  --bg-secondary: #2a1515;
+  --bg-card: #3a1f1f;
+  --bg-card-hover: #4a2a2a;
+  --text-primary: #FFD700;
+  --text-secondary: #FF8C00;
+  --text-muted: #CC6600;
+  --border-color: #FF450040;
+  --gradient-start: #FF4500;
+  --gradient-end: #FFD700;
+  --shadow-color: rgba(255, 69, 0, 0.2);
+  --glass-bg: rgba(26, 10, 10, 0.8);
+  --glass-border: rgba(255, 215, 0, 0.3);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Global styles */
+::selection {
+  background: var(--gradient-start);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+  border-radius: 4px;
+}
+
+/* Glass morphism utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 20px var(--shadow-color), 0 0 40px var(--shadow-color);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px var(--gradient-start), 0 0 20px var(--gradient-start);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated border */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 0deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+  border-radius: inherit;
+  animation: borderSpin 3s linear infinite;
+  z-index: -1;
+}
+
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px var(--gradient-start); }
+  50% { box-shadow: 0 0 30px var(--gradient-start), 0 0 60px var(--gradient-end); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Section styles */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 4rem;
+  font-size: 1.1rem;
+}
+
+/* Custom cursor trail */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gradient-start);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s ease;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--gradient-end);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+/* Loading screen */
+@keyframes loadingPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* Vertical timeline override styles */
+.vertical-timeline-element-content {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 4px 20px var(--shadow-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.vertical-timeline-element-content-arrow {
+  border-right-color: var(--border-color) !important;
+}
+
+.vertical-timeline::before {
+  background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end)) !important;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  .section-container {
+    padding: 4rem 1rem;
+  }
+}
