@@ -11,17 +11,17 @@ interface Message {
 function generateResponse(input: string): string {
   const lower = input.toLowerCase();
 
-  if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+  if (lower.includes('skill') || lower.includes('technolog') || lower.includes('stack')) {
+    const skillNames = skills.map((s) => s.name).join(', ');
+    return `Mudasar is skilled in: **${skillNames}**. His strongest areas are HTML5, CSS3, Bootstrap, and VS Code, with growing expertise in React and TypeScript! 💻`;
+  }
+
+  if (/\b(hello|hi|hey|hola)\b/.test(lower)) {
     return `Hey there! 👋 I'm Mudasar's AI assistant. I can tell you about his skills, experience, projects, education, or how to contact him. What would you like to know?`;
   }
 
   if (lower.includes('name') || lower.includes('who')) {
     return `He's **${personalInfo.name}** — a passionate ${personalInfo.title} based in ${personalInfo.location}. He loves building beautiful, responsive web interfaces! 🚀`;
-  }
-
-  if (lower.includes('skill') || lower.includes('technolog') || lower.includes('stack')) {
-    const skillNames = skills.map((s) => s.name).join(', ');
-    return `Mudasar is skilled in: **${skillNames}**. His strongest areas are HTML5, CSS3, Bootstrap, and VS Code, with growing expertise in React and TypeScript! 💻`;
   }
 
   if (lower.includes('experience') || lower.includes('work') || lower.includes('job')) {
