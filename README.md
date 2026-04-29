@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# Muhammad Mudasar - Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, animated portfolio website built with React, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Animated Robot Character** — Interactive SVG robot mascot that waves, blinks, and floats
+- **AI Chat Assistant** — Built-in chatbot that answers questions about skills, experience, and contact info
+- **4 Themes** — Dark, Light, Cyberpunk, and Sunset themes with smooth transitions
+- **PWA Support** — Installable as a mobile/desktop app with offline caching
+- **Particle Background** — Interactive canvas particles with mouse interaction
+- **Smooth Animations** — Framer Motion + GSAP powered animations throughout
+- **Responsive Design** — Mobile-first, works perfectly on all screen sizes
+- **Scroll Progress** — Visual scroll indicator at the top
+- **Glassmorphism UI** — Modern glass-effect cards and navigation
 
-## React Compiler
+## Sections
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Hero** — Intro with typing animation and animated character
+2. **About** — Bio, highlights, and stats
+3. **Skills** — Filterable skill cards with progress bars (Frontend, Framework, Tools)
+4. **Experience** — Vertical timeline of work history
+5. **Projects** — Project cards with hover effects and links
+6. **Education** — Academic background with coursework tags
+7. **Contact** — Contact form and info cards
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19 + TypeScript
+- Vite 8
+- Tailwind CSS 4
+- Framer Motion
+- GSAP
+- React Icons
+- Vite PWA Plugin
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Build
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npm run preview
 ```
+
+## Author
+
+**Muhammad Mudasar** — Frontend Web Developer
+- Email: muhammadmudasar0625@gmail.com
+- Location: Multan, Pakistan
+- GitHub: [Mudasar-123](https://github.com/Mudasar-123)
